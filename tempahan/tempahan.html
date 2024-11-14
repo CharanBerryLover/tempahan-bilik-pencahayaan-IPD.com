@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tempahan Penggunaan Bilik Pencahayaan IPD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Tempahan Penggunaan Bilik Pencahayaan IPD</h1>
+</header>
+
+<div class="container">
+    <h2>Booking Form</h2>
+    <form id="bookingForm">
+        <input type="text" id="namaPIC" placeholder="Nama" required>
+        <input type="text" id="bahagian" placeholder="Bahagian" required>
+        <input type="date" id="tarikh" required>
+        <input type="time" id="masa" required>
+        <input type="number" id="bilanganPeserta" placeholder="Bilangan Peserta" required>
+        <input type="text" id="namaProgram" placeholder="Nama Program" required>
+        <button type="submit">Book Now</button>
+    </form>
+    <p id="message"></p>
+</div>
+
+<script>
+    document.getElementById("bookingForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var namaPIC = document.getElementById("namaPIC").value;
+        var bahagian = document.getElementById("bahagian").value;
+        var tarikh = document.getElementById("tarikh").value;
+        var masa = document.getElementById("masa").value;
+        var bilanganPeserta = document.getElementById("bilanganPeserta").value;
+        var namaProgram = document.getElementById("namaProgram").value;
+
+        var data = {
+            namaPIC: namaPIC,
+            bahagian: bahagian,
+            tarikh: tarikh,
+            masa: masa,
+            bilanganPeserta: bilanganPeserta,
+            namaProgram: namaProgram
+        };
+
+        fetch('processBooking.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("message").innerText = data.message;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+</body>
+</html>
